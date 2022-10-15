@@ -8,11 +8,9 @@ class api {
     try {
       Response response = await service.get(_baseURL + '/$endPoint');
       if (response.statusCode == 200) {
-        print('deu certo');
         return response.data;
       }
     } catch (response) {
-      print('deu merda');
       return null;
     }
   }
