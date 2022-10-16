@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:mobx/mobx.dart';
+import 'package:pokedex/pokemon.dart';
 import '../service/api.dart';
 
 class AppStore {
@@ -115,28 +118,32 @@ class AppStore {
         print(generation[x]);
         isSelectedGeneration = true;
         content = await api().myRequest('generation/${x + 1}/');
-        contentGeneration += content['pokemon_species'];
+        content = content['pokemon_species'];
+        contentGeneration += content;
       }
-    }
-    if (isSelectedGeneration == true) {
-      content = contentGeneration;
     }
 
     for (int x = 0; x < type.length; x++) {
       if (selectedType.value[x] == true) {
         print(type[x]);
         isSelectedType = true;
-        content = await api().myRequest('type/${x + 1}/');
+        if (x == 18) {
+          content = await api().myRequest('type/10001/');
+        } else {
+          if (x == 19) {
+            content = await api().myRequest('type/10002/');
+          } else {
+            content = await api().myRequest('type/${x + 1}/');
+          }
+        }
         content = content['pokemon'];
-        contentType += formatListPokemonByType(content);
+        content = formatListPokemonByType(content);
+        contentType += content;
       }
-    }
-    if (isSelectedType == true) {
-      content = contentType;
     }
 
     if (isSelectedGeneration == false && isSelectedType == false) {
-      await allPokemonsReturn();
+      return 'Selecione alguma preferência para pesquisar';
     }
 
     if (isSelectedGeneration == true && isSelectedType == true) {
@@ -149,7 +156,20 @@ class AppStore {
         }
       }
       removeRepetiblePokemonList();
+      content = await mapNameforPokemon(content);
+      return '';
     }
+
+    if (isSelectedGeneration == true) {
+      content = contentGeneration;
+    }
+
+    if (isSelectedType == true) {
+      content = contentType;
+    }
+
+    content = await mapNameforPokemon(content);
+    return '';
   }
 
   pokemonSearchByWord(word) async {
@@ -159,6 +179,7 @@ class AppStore {
       return false;
     } else {
       content = content['forms'];
+      content = await mapNameforPokemon(content);
       return true;
     }
   }
@@ -183,6 +204,17 @@ class AppStore {
       }
     }
     return temp;
+  }
+
+  mapNameforPokemon(listPokemon) async {
+    List<Pokemon> pokemons = [];
+    for (int index = 0; index < listPokemon.length; index++) {
+      var temp = await getPokemonDetails(listPokemon[index]);
+      if(temp != null) {
+        pokemons.add(temp);
+      }
+    }
+    return pokemons;
   }
 
   identifyGeneration(generation) {
@@ -233,6 +265,85 @@ class AppStore {
           setToggle();
         }
       }
+    }
+  }
+
+  getPokemonDetails(item) async {
+    var pokemon = Pokemon();
+    var geralPokemon = await api().myRequest('pokemon-form/${item['name']}');
+    if (geralPokemon != null) {
+      pokemon.name = geralPokemon['name'];
+      pokemon.types = extractTypesFromPokemon(geralPokemon['types']);
+      pokemon.sprites = geralPokemon['sprites'];
+      pokemon.color = getColor(pokemon.types[0]);
+      return pokemon;
+    }
+
+    return null;
+  }
+
+  extractTypesFromPokemon(types) {
+    String strType = '';
+    for (int index = 0; index < types.length; index++) {
+      strType += translateType(types[index]['type']['name']);
+      strType += ' ';
+    }
+    return strType;
+  }
+
+  translateType(type) {
+    switch (type) {
+      case 'normal':
+        return 'Normal';
+      case 'fighting':
+        return 'Luta';
+      case 'flying':
+        return 'Vôo';
+      case 'poison':
+        return 'Veneno';
+      case 'ground':
+        return 'Chão';
+      case 'rock':
+        return 'Pedra';
+      case 'bug':
+        return 'Inseto';
+      case 'ghost':
+        return 'Fantasma';
+      case 'steel':
+        return 'Aço';
+      case 'fire':
+        return 'Fogo';
+      case 'water':
+        return 'Água';
+      case 'grass':
+        return 'Grama';
+      case 'electric':
+        return 'Elétrico';
+      case 'psychic':
+        return 'Psíquico';
+      case 'ice':
+        return 'Gelo';
+      case 'dragon':
+        return 'Dragão';
+      case 'dark':
+        return 'Trevas';
+      case 'fairy':
+        return 'Fada';
+      case 'unknown':
+        return 'Desconhecido';
+      case 'shadow':
+        return 'Sombra';
+      default:
+        return 'nothing';
+    }
+  }
+
+  getColor(type) {
+    switch (type) {
+      case 'Elétrico':
+        return Color.fromARGB(255, 255, 255, 0);
+      default:
+        return Color.fromARGB(255, 255, 0, 255);
     }
   }
 

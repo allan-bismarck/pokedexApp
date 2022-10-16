@@ -82,12 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(15),
                     ),
                     onPressed: () async {
-                      await appStore.pokemonSearchByToggleButtons();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PokemonList()),
-                      );
+                      String message = await appStore.pokemonSearchByToggleButtons();
+                      message == ''
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PokemonList()),
+                            )
+                          : showSnackBarMessage(message);
                     },
                     child: const Text(
                       'Pesquisar',
