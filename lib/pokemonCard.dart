@@ -8,7 +8,6 @@ class PokemonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(pokemon!.name);
 
     return Card(
         color: pokemon!.color,
@@ -22,10 +21,11 @@ class PokemonCard extends StatelessWidget {
                     color: Colors.red, 
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: const Text('Imagem não localizada',
+                      child: Text('Imagem não localizada',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width * 0.035
                         ),
                       ),
                 )) : Image.network(pokemon!.sprites['front_default'])),
@@ -36,7 +36,7 @@ class PokemonCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: size.width * 0.05
+                    fontSize: size.width * 0.04
                   ),
                 ),
                 Text(
@@ -45,7 +45,7 @@ class PokemonCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(width: size.width * 0.15)
+            SizedBox(width: size.width * 0.08)
           ],
         ));
   }

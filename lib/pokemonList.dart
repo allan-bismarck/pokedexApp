@@ -13,12 +13,10 @@ class PokemonList extends StatefulWidget {
 }
 
 class _PokemonListState extends State<PokemonList> {
-
   @override
   Widget build(BuildContext context) {
     final appStore = Provider.of<AppStore>(context);
     var content = appStore.getContent();
-    print(content);
 
     return Scaffold(
         appBar: AppBar(
@@ -29,7 +27,7 @@ class _PokemonListState extends State<PokemonList> {
             children: [
               ListView.separated(
                 shrinkWrap: true,
-                separatorBuilder: (context, index) => SizedBox(height: 5),
+                separatorBuilder: (context, index) => SizedBox(height: 1),
                 itemCount: content == null ? 1 : content.length,
                 itemBuilder: (context, index) {
                   return content == null
