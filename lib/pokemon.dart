@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Pokemon {
-  List<dynamic> abilities = [];
   var sprites;
   String name = '';
   String types = '';

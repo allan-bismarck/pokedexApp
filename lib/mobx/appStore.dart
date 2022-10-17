@@ -142,32 +142,35 @@ class AppStore {
       }
     }
 
+    content = [];
+
     if (isSelectedGeneration == false && isSelectedType == false) {
       return 'Selecione alguma preferência para pesquisar';
     }
 
     if (isSelectedGeneration == true && isSelectedType == true) {
-      content = [];
       for (int x = 0; x < contentGeneration.length; x++) {
         for (int y = 0; y < contentType.length; y++) {
           if (contentGeneration[x]['name'] == contentType[y]['name']) {
-            content.add(contentGeneration[x]);
+            content.add(contentGeneration[x]['name']);
           }
         }
       }
       removeRepetiblePokemonList();
+      content.sort();
       content = await mapNameforPokemon(content);
       return '';
     }
 
     if (isSelectedGeneration == true) {
-      content = contentGeneration;
+      content = extractNamesFromPokemons(contentGeneration);
     }
 
     if (isSelectedType == true) {
-      content = contentType;
+      content = extractNamesFromPokemons(contentType);
     }
 
+    content.sort();
     content = await mapNameforPokemon(content);
     return '';
   }
@@ -179,9 +182,18 @@ class AppStore {
       return false;
     } else {
       content = content['forms'];
+      content = extractNamesFromPokemons(content);
       content = await mapNameforPokemon(content);
       return true;
     }
+  }
+
+  extractNamesFromPokemons(list) {
+    var temp = [];
+    for (int x = 0; x < list.length; x++) {
+      temp.add(list[x]['name']);
+    }
+    return temp;
   }
 
   formatListPokemonByType(content) {
@@ -217,33 +229,10 @@ class AppStore {
     return pokemons;
   }
 
-  identifyGeneration(generation) {
-    switch (generation) {
-      case 'generation-i':
-        return 1;
-      case 'generation-ii':
-        return 2;
-      case 'generation-iii':
-        return 3;
-      case 'generation-iv':
-        return 4;
-      case 'generation-v':
-        return 5;
-      case 'generation-vi':
-        return 6;
-      case 'generation-vii':
-        return 7;
-      case 'generation-viii':
-        return 8;
-      default:
-        return 0;
-    }
-  }
-
   removeRepetiblePokemonList() {
     for (int x = 0; x < content.length; x++) {
       for (int y = 0; y < content.length; y++) {
-        if (x != y && content[x]['name'] == content[y]['name']) {
+        if (x != y && content[x] == content[y]) {
           content.remove(content[y]);
         }
       }
@@ -270,11 +259,11 @@ class AppStore {
 
   getPokemonDetails(item) async {
     var pokemon = Pokemon();
-    var geralPokemon = await api().myRequest('pokemon-form/${item['name']}');
+    var geralPokemon = await api().myRequest('pokemon-form/$item');
     if (geralPokemon != null) {
       pokemon.name = geralPokemon['name'];
       pokemon.types = extractTypesFromPokemon(geralPokemon['types']);
-      pokemon.sprites = geralPokemon['sprites'];
+      pokemon.sprites = geralPokemon['sprites']['front_default'];
       pokemon.color = getColor(pokemon.types);
       return pokemon;
     }
@@ -372,7 +361,7 @@ class AppStore {
       case 'Gelo':
         return Color.fromARGB(255, 165, 229, 255);
       case 'Dragão':
-        return Color.fromARGB(255, 201, 47, 47);
+        return Color.fromARGB(255, 236, 55, 55);
       case 'Trevas':
         return Color.fromARGB(255, 122, 122, 122);
       case 'Fada':

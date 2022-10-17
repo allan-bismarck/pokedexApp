@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonCard.dart';
+import 'package:pokedex/pokemonDetails.dart';
 import 'package:pokedex/service/api.dart';
 import 'package:provider/provider.dart';
 import 'mobx/appStore.dart';
@@ -27,12 +28,22 @@ class _PokemonListState extends State<PokemonList> {
             children: [
               ListView.separated(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(), 
                 separatorBuilder: (context, index) => SizedBox(height: 1),
                 itemCount: content == null ? 1 : content.length,
                 itemBuilder: (context, index) {
                   return content == null
                       ? Text('Nenhum item a ser exibido')
-                      : PokemonCard(pokemon: content[index]);
+                      : InkWell(
+                        onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PokemonDetails(name: content[index].name)),
+                            ),
+                        child: PokemonCard(
+                          pokemon: content[index]
+                        )
+                        );
                 },
               )
             ],

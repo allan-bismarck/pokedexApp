@@ -16,7 +16,7 @@ class PokemonCard extends StatelessWidget {
           children: [
             Container(
                 width: size.width * 0.27,
-                child: pokemon!.sprites['front_default'] == null ? 
+                child: pokemon!.sprites == null ? 
                   Container(
                     color: Colors.red, 
                     child: Padding(
@@ -28,7 +28,7 @@ class PokemonCard extends StatelessWidget {
                           fontSize: size.width * 0.035
                         ),
                       ),
-                )) : Image.network(pokemon!.sprites['front_default'])),
+                )) : Image.network(pokemon!.sprites)),
             Column(
               children: [
                 Text(
