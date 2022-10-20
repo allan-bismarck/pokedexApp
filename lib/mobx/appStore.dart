@@ -275,8 +275,9 @@ class AppStore {
     String strType = '';
     for (int index = 0; index < types.length; index++) {
       strType += translateType(types[index]['type']['name']);
-      strType += ' ';
+      strType += ' | ';
     }
+    strType = strType.substring(0, strType.length - 3);
     return strType;
   }
 
@@ -328,7 +329,7 @@ class AppStore {
   }
 
   getColor(type) {
-    var temp = type.split(' ');
+    var temp = type.split(' | ');
     switch (temp[0]) {
       case 'Normal':
         return Color.fromARGB(255, 238, 238, 238);

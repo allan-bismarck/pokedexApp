@@ -1,175 +1,211 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:pokedex/service/api.dart';
+import 'package:pokedex/pokemonStats.dart';
 
 class PokemonDetails extends StatefulWidget {
-  final String? name;
-  const PokemonDetails({super.key, this.name});
+  final PokemonStats? pokemon;
+  const PokemonDetails({super.key, this.pokemon});
 
   @override
   State<PokemonDetails> createState() => _PokemonDetailsState();
 }
 
 class _PokemonDetailsState extends State<PokemonDetails> {
-  var pokemon;
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      pokemon = await getPokemon(widget.name);
-      print(pokemon.name);
-      print(pokemon.abilities);
-      print(pokemon.color);
-      print(pokemon.id);
-      print(pokemon.stats);
-      print(pokemon.sprites);
-      print(pokemon.types);
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detalhes do Pokémon'),
-      ),
-      body: Container(child: Text('${widget.name}')),
-    );
-  }
-
-  getPokemon(name) async {
-    var pokemon = PokemonStats();
-    var content = await api().myRequest('pokemon/$name');
-    pokemon.name = content['name'];
-    pokemon.id = content['id'];
-    pokemon.types = extractTypesFromPokemon(content['types']);
-    pokemon.color = getColor(pokemon.types);
-    pokemon.sprites =
-        content['sprites']['other']['official-artwork']['front_default'];
-    pokemon.abilities = extractNames(content['abilities']);
-    pokemon.stats = content['stats'];
-    return pokemon;
-  }
-
-  extractTypesFromPokemon(types) {
-    String strType = '';
-    for (int index = 0; index < types.length; index++) {
-      strType += translateType(types[index]['type']['name']);
-      strType += ' ';
-    }
-    return strType;
-  }
-
-  translateType(type) {
-    switch (type) {
-      case 'normal':
-        return 'Normal';
-      case 'fighting':
-        return 'Luta';
-      case 'flying':
-        return 'Vôo';
-      case 'poison':
-        return 'Veneno';
-      case 'ground':
-        return 'Terra';
-      case 'rock':
-        return 'Pedra';
-      case 'bug':
-        return 'Inseto';
-      case 'ghost':
-        return 'Fantasma';
-      case 'steel':
-        return 'Aço';
-      case 'fire':
-        return 'Fogo';
-      case 'water':
-        return 'Água';
-      case 'grass':
-        return 'Grama';
-      case 'electric':
-        return 'Elétrico';
-      case 'psychic':
-        return 'Psíquico';
-      case 'ice':
-        return 'Gelo';
-      case 'dragon':
-        return 'Dragão';
-      case 'dark':
-        return 'Trevas';
-      case 'fairy':
-        return 'Fada';
-      case 'unknown':
-        return 'Desconhecido';
-      case 'shadow':
-        return 'Sombra';
-      default:
-        return 'nothing';
-    }
-  }
-
-  getColor(type) {
-    var temp = type.split(' ');
-    switch (temp[0]) {
-      case 'Normal':
-        return Color.fromARGB(255, 238, 238, 238);
-      case 'Luta':
-        return Color.fromARGB(255, 195, 201, 217);
-      case 'Vôo':
-        return Color.fromARGB(255, 248, 244, 171);
-      case 'Veneno':
-        return Color.fromARGB(255, 196, 5, 199);
-      case 'Terra':
-        return Color.fromARGB(255, 166, 99, 60);
-      case 'Pedra':
-        return Color.fromARGB(255, 222, 184, 135);
-      case 'Inseto':
-        return Color.fromARGB(255, 144, 238, 144);
-      case 'Fantasma':
-        return Color.fromARGB(255, 164, 86, 166);
-      case 'Aço':
-        return Color.fromARGB(255, 219, 221, 227);
-      case 'Fogo':
-        return Color.fromARGB(255, 255, 165, 0);
-      case 'Água':
-        return Color.fromARGB(255, 62, 159, 255);
-      case 'Grama':
-        return Color.fromARGB(255, 8, 231, 8);
-      case 'Elétrico':
-        return Color.fromARGB(255, 255, 255, 0);
-      case 'Psíquico':
-        return Color.fromARGB(255, 255, 238, 137);
-      case 'Gelo':
-        return Color.fromARGB(255, 165, 229, 255);
-      case 'Dragão':
-        return Color.fromARGB(255, 236, 55, 55);
-      case 'Trevas':
-        return Color.fromARGB(255, 122, 122, 122);
-      case 'Fada':
-        return Color.fromARGB(255, 255, 182, 193);
-      case 'Desconhecido':
-        return Color.fromARGB(255, 182, 191, 147);
-      case 'Sombra':
-        return Color.fromARGB(255, 211, 211, 211);
-      default:
-        return Color.fromARGB(255, 255, 0, 255);
-    }
-  }
-
-  extractNames(list) {
-    var temp = [];
-    for (int x = 0; x < list.length; x++) {
-      temp.add(list[x]['ability']['name']);
-    }
-    return temp;
+        appBar: AppBar(
+          title: const Text('Detalhes do Pokémon'),
+        ),
+        body: Container(
+          color: widget.pokemon!.color,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  '${widget.pokemon!.name.toUpperCase()}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: size.width * 0.06),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: size.width * 0.4,
+                            height: size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: widget.pokemon!.color,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    style: BorderStyle.solid,
+                                    color: Color.fromARGB(255, 151, 151, 151))),
+                            padding: EdgeInsets.all(10),
+                            child: Stack(children: [
+                              Opacity(
+                                  child: Image.network(widget.pokemon!.sprites,
+                                      filterQuality: FilterQuality.low,
+                                      color: Colors.black),
+                                  opacity: 0.5),
+                              ClipRect(
+                                  child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 5.0, sigmaY: 5.0),
+                                      child: Image.network(
+                                          widget.pokemon!.sprites))),
+                            ]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Tipo',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: size.width * 0.035),
+                                    ),
+                                    Text(
+                                      '${widget.pokemon!.types}',
+                                      style: TextStyle(
+                                          fontSize: size.width * 0.035),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Habilidades',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: size.width * 0.035),
+                                    ),
+                                    Text(
+                                      '${widget.pokemon!.abilities}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: size.width * 0.035),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: Text(
+                  'ATRIBUTOS',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: size.width * 0.04),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Column(
+                        children: [
+                          StatusBar(title: 'Vida', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                          StatusBar(title: 'Ataque', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                          StatusBar(title: 'Defesa', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                          StatusBar(title: 'Ataque Especial', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                          StatusBar(title: 'Defesa Especial', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                          StatusBar(title: 'Velocidade', color: widget.pokemon!.color, size: size, value: size.width * 0.9 * 0.5),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Expanded(
+              //   child: Card(
+              //     child: Text('Evoluções'),
+              //     color: Colors.amber,
+              //   ),
+              // ),
+            ],
+          ),
+        ));
   }
 }
 
-class PokemonStats {
-  List<dynamic> abilities = [];
-  int id = 0;
-  String name = '';
-  String types = '';
-  List<dynamic> stats = [];
-  var sprites;
-  Color color = Color.fromARGB(255, 255, 255, 255);
+class StatusBar extends StatelessWidget {
+  final String? title;
+  final color;
+  final double? value;
+  final size;
+  const StatusBar({super.key, this.title, this.color, this.value, this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              title!,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: size.height * 0.021
+              ),
+            ),
+          )
+        ),
+        Stack(
+          children: [
+            Container(
+              height: 22,
+              width: size.width * 0.9,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 49, 49, 49),
+                  borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            Container(
+              height: 22,
+              width: size.width * 0.9 * 0.5,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  style: BorderStyle.solid,
+                  width: 1,
+                  color: Color.fromARGB(78, 0, 0, 0)
+                )
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 5)
+      ],
+    );
+  }
 }
