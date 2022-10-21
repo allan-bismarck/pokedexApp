@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:pokedex/service/api.dart';
+import '../mobx/appStore.dart';
 
 class PokemonStats {
   String abilities = '';
@@ -10,6 +11,9 @@ class PokemonStats {
   List<dynamic> stats = [];
   var sprites;
   Color color = Color.fromARGB(255, 255, 255, 255);
+  var species;
+  var evolutions;
+  var varieties;
 
   getPokemon(name) async {
     var pokemon = PokemonStats();
@@ -18,12 +22,24 @@ class PokemonStats {
     pokemon.id = content['id'];
     pokemon.types = extractTypesFromPokemon(content['types']);
     pokemon.color = getColor(pokemon.types);
-    pokemon.sprites =
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemon.id}.png';
-    print(pokemon.sprites);
-    var tempAbilities = extractNames(content['abilities']);
+    pokemon.sprites = content['sprites']['other']['home']['front_default'];
+    var tempAbilities = extractAbilityNames(content['abilities']);
     pokemon.abilities = extractAbilitiesFromPokemon(tempAbilities);
     pokemon.stats = content['stats'];
+    pokemon.species = content['species']['url'];
+    pokemon.species = pokemon.species.split('/');
+    pokemon.species = pokemon.species[pokemon.species.length - 2];
+    pokemon.species =
+        await api().myRequest('pokemon-species/${pokemon.species}');
+    pokemon.evolutions = pokemon.species['evolution_chain']['url'];
+    pokemon.evolutions = pokemon.evolutions.split('/');
+    pokemon.evolutions = pokemon.evolutions[pokemon.evolutions.length - 2];
+    pokemon.evolutions =
+        await api().myRequest('evolution-chain/${pokemon.evolutions}');
+    pokemon.varieties = pokemon.species['varieties'];
+    var listPokemons = extractNamesFromPokemons(pokemon.varieties);
+    listPokemons = await AppStore().mapNameforPokemon(listPokemons);
+    pokemon.varieties = listPokemons;
     return pokemon;
   }
 
@@ -84,6 +100,15 @@ class PokemonStats {
     }
   }
 
+  extractNamesFromPokemons(listPokemons) {
+    var temp = [];
+    for (int index = 0; index < listPokemons.length; index++) {
+      temp.add(listPokemons[index]['pokemon']['name']);
+    }
+
+    return temp;
+  }
+
   extractAbilitiesFromPokemon(abilities) {
     String strAbility = '';
     for (int index = 0; index < abilities.length; index++) {
@@ -142,7 +167,7 @@ class PokemonStats {
     }
   }
 
-  extractNames(list) {
+  extractAbilityNames(list) {
     var temp = [];
     for (int x = 0; x < list.length; x++) {
       temp.add(list[x]['ability']['name']);
