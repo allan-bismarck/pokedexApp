@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'homePage.dart';
 import 'mobx/appStore.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(),
+        home: const SplashScreen(),
       ),
     );
   }

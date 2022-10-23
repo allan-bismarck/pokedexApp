@@ -1,7 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:pokedex/customFutureBuilder.dart';
+import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonStats.dart';
-import 'package:pokedex/pokemonVarieties.dart';
+import 'package:pokedex/pokemonList.dart';
+import 'package:pokedex/service/api.dart';
+
+import 'mobx/appStore.dart';
 
 class PokemonDetails extends StatefulWidget {
   final PokemonStats? pokemon;
@@ -85,7 +90,6 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   showAtributes(size) {
-    print(widget.pokemon!.sprites);
     return Column(children: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -229,23 +233,95 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     ]);
   }
 
-  showEvolutions() {
-    return Column(
-      children: [
-        Text('Evoluções'),
-      ],
+  Widget showContent() {
+    String search;
+    if (isSelected[1] == true) {
+      search = 'evolutions';
+    } else {
+      search = 'varieties';
+    }
+
+    return CustomFutureBuilder<List<Pokemon>>(
+      future: getEvolutionsOrVarieties(search),
+      onComplete: (context, data) {
+        return Container(
+          color: data[0].color,
+          child: PokemonList(pokemonList: data)
+        );
+      },
+      onEmpty: ((context) {
+        print('empty');
+        return Center(child: Text('Não há Pokémons a ser exibidos'));
+      }),
+      onLoading: ((context) {
+        print('loading');
+        return Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(child: Text('Carregando...')),
+            ],
+          ),
+        );
+      }),
+      onError: ((context, error) {
+        print('error');
+        return Center(child: Text(error.toString()));
+      }),
     );
   }
 
-  showVarieties() {
-    return PokemonVarieties(pokemonVarieties: widget.pokemon!.varieties);
+  Future<List<Pokemon>> getEvolutionsOrVarieties(search) async {
+    var content = await api().myRequest('pokemon/${widget.pokemon!.name}');
+    var species;
+    species = content['species']['url'];
+    species = species.split('/');
+    species = species[species.length - 2];
+    species = await api().myRequest('pokemon-species/$species');
+    if (search == 'evolutions') {
+      content = species['evolution_chain']['url'];
+      content = content.split('/');
+      content = content[content.length - 2];
+      content = await api().myRequest('evolution-chain/${content}');
+      content = content['chain'];
+      content = extracEvolutionsFromPokemon(content);
+      var listEvolutions = await AppStore().mapNameforPokemon(content);
+      content = listEvolutions;
+    } else {
+        content = species['varieties'];
+        var listPokemons = extractNamesFromPokemons(content);
+        listPokemons = await AppStore().mapNameforPokemon(listPokemons);
+        content = listPokemons;
+    }
+
+    return content;
   }
 
-  Widget showContent() {
-    if (isSelected[1] == true) {
-      return showEvolutions();
+  extracEvolutionsFromPokemon(list) {
+    var temp = list;
+    var temp2 = [];
+    temp2.add(temp['species']['name']);
+    temp = temp['evolves_to'];
+    for (int index = 0; index < temp.length; index++) {
+      temp2.add(temp[index]['species']['name']);
+      if (temp[index]['evolves_to'] != []) {
+        var temp3 = temp;
+        temp3 = temp[index]['evolves_to'];
+        for (int x = 0; x < temp3.length; x++) {
+          temp2.add(temp3[x]['species']['name']);
+        }
+      }
     }
-    return showVarieties();
+    return temp2;
+  }
+
+  extractNamesFromPokemons(listPokemons) {
+    var temp = [];
+    for (int index = 0; index < listPokemons.length; index++) {
+      temp.add(listPokemons[index]['pokemon']['name']);
+    }
+
+    return temp;
   }
 }
 

@@ -26,9 +26,18 @@ class _ToggleButtonsSearchState extends State<ToggleButtonsSearch> {
         listWidgets.add(Text(
           widget.list[itens],
           textScaleFactor: 0.8,
+          style: TextStyle(
+            fontWeight: FontWeight.bold
+          ),
         ));
       } else {
-        listWidgets.add(Text(widget.list[itens]));
+        listWidgets.add(Text(
+          widget.list[itens],
+          style: TextStyle(
+            fontWeight: FontWeight.bold
+          ),
+          )
+        );
       }
     }
   }

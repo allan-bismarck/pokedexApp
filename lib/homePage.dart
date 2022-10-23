@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pokemonList.dart';
+import 'package:pokedex/pokemon.dart';
+import 'package:pokedex/pokemonListScreen.dart';
 import 'package:provider/provider.dart';
 import 'mobx/appStore.dart';
 import 'toggleButtons.dart';
@@ -82,14 +83,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(15),
                     ),
                     onPressed: () async {
-                      String message = await appStore.pokemonSearchByToggleButtons();
-                      message == ''
-                          ? Navigator.push(
+                      List<bool> selecteds =
+                          appStore.returnToggleButtonsSelecteds();
+                      (selecteds[0] == false || selecteds[1] == false)
+                          ? showSnackBarMessage(
+                              'Selecione alguma preferência para pesquisar')
+                          : Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const PokemonList()),
-                            )
-                          : showSnackBarMessage(message);
+                                  builder: (context) =>
+                                      const PokemonListScreen()),
+                            );
                     },
                     child: const Text(
                       'Pesquisar',
@@ -105,13 +109,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   pokemonSearch(context, appStore) async {
     if (await isValidInput() == true) {
-      bool temp = await appStore.pokemonSearchByWord(controller.text);
-      print(temp);
-      if (temp != false) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PokemonList()));
-      } else {
+      List<Pokemon> temp = await appStore.pokemonSearchByWord(controller.text);
+      if (temp[0].name == '') {
         await showSnackBarMessage('Digite o nome do pokémon corretamente');
+      } else {
+        String word = controller.text;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PokemonListScreen(namePokemon: word)));
       }
     }
     controller.text = '';

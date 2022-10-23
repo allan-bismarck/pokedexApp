@@ -1,45 +1,25 @@
 import 'dart:ui';
-
 import 'package:pokedex/service/api.dart';
-import '../mobx/appStore.dart';
 
 class PokemonStats {
   String abilities = '';
-  int id = 0;
   String name = '';
   String types = '';
   List<dynamic> stats = [];
   var sprites;
   Color color = Color.fromARGB(255, 255, 255, 255);
-  var species;
-  var evolutions;
-  var varieties;
 
   getPokemon(name) async {
     var pokemon = PokemonStats();
     var content = await api().myRequest('pokemon/$name');
     pokemon.name = content['name'];
-    pokemon.id = content['id'];
     pokemon.types = extractTypesFromPokemon(content['types']);
     pokemon.color = getColor(pokemon.types);
     pokemon.sprites = content['sprites']['other']['home']['front_default'];
     var tempAbilities = extractAbilityNames(content['abilities']);
     pokemon.abilities = extractAbilitiesFromPokemon(tempAbilities);
     pokemon.stats = content['stats'];
-    pokemon.species = content['species']['url'];
-    pokemon.species = pokemon.species.split('/');
-    pokemon.species = pokemon.species[pokemon.species.length - 2];
-    pokemon.species =
-        await api().myRequest('pokemon-species/${pokemon.species}');
-    pokemon.evolutions = pokemon.species['evolution_chain']['url'];
-    pokemon.evolutions = pokemon.evolutions.split('/');
-    pokemon.evolutions = pokemon.evolutions[pokemon.evolutions.length - 2];
-    pokemon.evolutions =
-        await api().myRequest('evolution-chain/${pokemon.evolutions}');
-    pokemon.varieties = pokemon.species['varieties'];
-    var listPokemons = extractNamesFromPokemons(pokemon.varieties);
-    listPokemons = await AppStore().mapNameforPokemon(listPokemons);
-    pokemon.varieties = listPokemons;
+
     return pokemon;
   }
 
@@ -98,15 +78,6 @@ class PokemonStats {
       default:
         return 'nothing';
     }
-  }
-
-  extractNamesFromPokemons(listPokemons) {
-    var temp = [];
-    for (int index = 0; index < listPokemons.length; index++) {
-      temp.add(listPokemons[index]['pokemon']['name']);
-    }
-
-    return temp;
   }
 
   extractAbilitiesFromPokemon(abilities) {

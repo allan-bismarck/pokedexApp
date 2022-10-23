@@ -10,6 +10,7 @@ class PokemonCard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Card(
+        elevation: 3,
         color: pokemon!.color,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

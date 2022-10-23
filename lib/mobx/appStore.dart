@@ -5,7 +5,8 @@ import 'package:pokedex/pokemon.dart';
 import '../service/api.dart';
 
 class AppStore {
-  var content;
+  List<Pokemon> content = [];
+
   List<String> generation = <String>[
     '1ª',
     '2ª',
@@ -102,24 +103,15 @@ class AppStore {
 
   late final setToggle = Action(_setToggle);
 
-  allPokemonsReturn() async {
-    content = await api().myRequest('pokemon?limit=1154');
-    content = content['results'];
-  }
-
-  pokemonSearchByToggleButtons() async {
+  List<bool> returnToggleButtonsSelecteds() {
     bool isSelectedType = false;
     bool isSelectedGeneration = false;
-    var contentGeneration = [], contentType = [];
-    content = [];
 
     for (int x = 0; x < generation.length; x++) {
       if (selectedGeneration.value[x] == true) {
         print(generation[x]);
         isSelectedGeneration = true;
-        content = await api().myRequest('generation/${x + 1}/');
-        content = content['pokemon_species'];
-        contentGeneration += content;
+        break;
       }
     }
 
@@ -127,64 +119,66 @@ class AppStore {
       if (selectedType.value[x] == true) {
         print(type[x]);
         isSelectedType = true;
-        if (x == 18) {
-          content = await api().myRequest('type/10001/');
-        } else {
-          if (x == 19) {
-            content = await api().myRequest('type/10002/');
-          } else {
-            content = await api().myRequest('type/${x + 1}/');
-          }
-        }
-        content = content['pokemon'];
-        content = formatListPokemonByType(content);
-        contentType += content;
+        break;
       }
     }
 
-    content = [];
-
-    if (isSelectedGeneration == false && isSelectedType == false) {
-      return 'Selecione alguma preferência para pesquisar';
-    }
-
-    if (isSelectedGeneration == true && isSelectedType == true) {
-      for (int x = 0; x < contentGeneration.length; x++) {
-        for (int y = 0; y < contentType.length; y++) {
-          if (contentGeneration[x]['name'] == contentType[y]['name']) {
-            content.add(contentGeneration[x]['name']);
-          }
-        }
-      }
-      removeRepetiblePokemonList();
-      content.sort();
-      content = await mapNameforPokemon(content);
-      return '';
-    }
-
-    if (isSelectedGeneration == true) {
-      content = extractNamesFromPokemons(contentGeneration);
-    }
-
-    if (isSelectedType == true) {
-      content = extractNamesFromPokemons(contentType);
-    }
-
-    content.sort();
-    content = await mapNameforPokemon(content);
-    return '';
+    return [isSelectedGeneration, isSelectedType];
   }
 
-  pokemonSearchByWord(word) async {
+  Future<List<Pokemon>> pokemonSearchByToggleButtons() async {
+    var contentGeneration = [], contentType = [], contentTemp;
     content = [];
-    content = await api().myRequest('pokemon/$word');
-    if (content == null) {
-      return false;
+
+    for (int x = 0; x < generation.length; x++) {
+      if (selectedGeneration.value[x] == true) {
+        contentTemp = await api().myRequest('generation/${x + 1}/');
+        contentTemp = contentTemp['pokemon_species'];
+        contentGeneration += contentTemp;
+      }
+    }
+
+    for (int x = 0; x < type.length; x++) {
+      if (selectedType.value[x] == true) {
+        if (x == 18) {
+          contentTemp = await api().myRequest('type/10001/');
+        } else {
+          if (x == 19) {
+            contentTemp = await api().myRequest('type/10002/');
+          } else {
+            contentTemp = await api().myRequest('type/${x + 1}/');
+          }
+        }
+        contentTemp = contentTemp['pokemon'];
+        contentTemp = formatListPokemonByType(contentTemp);
+        contentType += contentTemp;
+      }
+    }
+
+    contentTemp = [];
+    for (int x = 0; x < contentGeneration.length; x++) {
+      for (int y = 0; y < contentType.length; y++) {
+        if (contentGeneration[x]['name'] == contentType[y]['name']) {
+          contentTemp.add(contentGeneration[x]['name']);
+        }
+      }
+    }
+    contentTemp = removeRepetiblePokemonList(contentTemp);
+    contentTemp.sort();
+    content = await mapNameforPokemon(contentTemp);
+    return content;
+  }
+
+  Future<List<Pokemon>> pokemonSearchByWord(word) async {
+    var temp;
+    temp = await api().myRequest('pokemon/$word');
+    if (temp == null) {
+      return [Pokemon()];
     } else {
-      content = content['forms'];
-      content = extractNamesFromPokemons(content);
-      content = await mapNameforPokemon(content);
-      return true;
+      temp = temp['forms'];
+      temp = [temp[0]['name']];
+      content = await mapNameforPokemon(temp);
+      return content;
     }
   }
 
@@ -229,14 +223,15 @@ class AppStore {
     return pokemons;
   }
 
-  removeRepetiblePokemonList() {
-    for (int x = 0; x < content.length; x++) {
-      for (int y = 0; y < content.length; y++) {
-        if (x != y && content[x] == content[y]) {
-          content.remove(content[y]);
+  removeRepetiblePokemonList(list) {
+    for (int x = 0; x < list.length; x++) {
+      for (int y = 0; y < list.length; y++) {
+        if (x != y && list[x] == list[y]) {
+          list.remove(list[y]);
         }
       }
     }
+    return list;
   }
 
   selectedItens(itemSelected) {
@@ -379,9 +374,5 @@ class AppStore {
   _setToggle() {
     selectedGeneration.value = tempSelectedGeneration;
     selectedType.value = tempSelectedType;
-  }
-
-  getContent() {
-    return content;
   }
 }
