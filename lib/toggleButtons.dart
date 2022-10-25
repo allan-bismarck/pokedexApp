@@ -6,8 +6,14 @@ import 'package:provider/provider.dart';
 class ToggleButtonsSearch extends StatefulWidget {
   final List<String> list;
   final int size;
+  final String? select;
+  final double? fontsize;
   const ToggleButtonsSearch(
-      {super.key, required this.list, required this.size});
+      {super.key,
+      required this.list,
+      required this.size,
+      this.fontsize,
+      required this.select});
 
   @override
   State<ToggleButtonsSearch> createState() => _ToggleButtonsSearchState();
@@ -23,21 +29,33 @@ class _ToggleButtonsSearchState extends State<ToggleButtonsSearch> {
     for (int itens = 0; itens < widget.size; itens++) {
       _selectedItems.add(false);
       if (widget.list[itens] == 'Desconhecido') {
-        listWidgets.add(Text(
-          widget.list[itens],
-          textScaleFactor: 0.8,
-          style: TextStyle(
-            fontWeight: FontWeight.bold
-          ),
+        listWidgets.add(
+          Container(
+            alignment: Alignment.center,
+            width: widget.fontsize == null ? 2 : widget.fontsize! * 0.2,
+            height: widget.fontsize == null ? 2 : widget.fontsize! * 0.05,
+            child: Text(
+              widget.list[itens],
+              textScaleFactor: 0.75,
+              style: TextStyle(fontWeight: FontWeight.bold,
+              fontSize: widget.fontsize == null ? 2 : widget.fontsize! * 0.04
+              ),
+            ),
         ));
       } else {
-        listWidgets.add(Text(
-          widget.list[itens],
-          style: TextStyle(
-            fontWeight: FontWeight.bold
-          ),
-          )
-        );
+        listWidgets.add(
+          Container(
+            alignment: Alignment.center,
+            width: widget.fontsize == null ? 2 : widget.fontsize! * 0.2,
+            height: widget.fontsize == null ? 2 : widget.fontsize! * 0.05,
+            child: Text(
+              widget.list[itens],
+              style: TextStyle(
+                fontWeight: FontWeight.bold, 
+                fontSize: widget.fontsize == null ? 2 : widget.fontsize! * 0.04
+              ),
+            ),
+        ));
       }
     }
   }
@@ -45,10 +63,12 @@ class _ToggleButtonsSearchState extends State<ToggleButtonsSearch> {
   @override
   Widget build(BuildContext context) {
     final appStore = Provider.of<AppStore>(context);
+    var size = MediaQuery.of(context).size;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         // ToggleButtons with a multiple selection.
         Observer(
@@ -60,17 +80,19 @@ class _ToggleButtonsSearchState extends State<ToggleButtonsSearch> {
                       _selectedItems[index] = !_selectedItems[index];
                     });
                   },
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  selectedBorderColor: Colors.green[700],
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  borderColor: Theme.of(context).colorScheme.tertiary,
+                  selectedBorderColor: Theme.of(context).colorScheme.background,
                   selectedColor: Colors.white,
-                  fillColor: Colors.green[200],
-                  color: Colors.green[400],
-                  constraints: const BoxConstraints(
-                    minHeight: 40.0,
-                    minWidth: 80.0,
-                  ),
+                  fillColor: widget.select == 'generation'
+                      ? Theme.of(context).colorScheme.tertiary
+                      : Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                   isSelected: _selectedItems,
                   children: listWidgets,
+                  constraints: BoxConstraints(
+                    minHeight: 40
+                  ),
                 )),
       ],
     );

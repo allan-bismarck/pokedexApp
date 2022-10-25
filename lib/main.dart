@@ -13,13 +13,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeData();
+
     return Provider(
       create: (_) => AppStore(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Pokedex',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        theme: theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(
+            primary: Color.fromARGB(255, 242, 5, 48),
+            primaryContainer: Color.fromARGB(255, 242, 15, 15),
+            secondary: Color.fromARGB(255, 4, 119, 191),
+            tertiary: Color.fromARGB(255, 242, 183, 5),
+            background: Color.fromARGB(255, 4, 196, 217),
+          ),
+          textTheme: TextTheme(
+            headline3: TextStyle(
+              color: Color.fromARGB(255, 242, 183, 5),
+              fontSize: 25,
+              letterSpacing: 5,
+              fontFamily: 'Pokemon-Solid',
+            ),
+            headline4: TextStyle(
+              fontFamily: 'Pokemon-Solid',
+              fontSize: 25,
+              letterSpacing: 5,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 8
+                ..color = Color.fromARGB(255, 3, 101, 161),
+            ),
+          ),
         ),
         home: const SplashScreen(),
       ),

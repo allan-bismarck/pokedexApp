@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/letterPokemon.dart';
+import 'package:pokedex/myAppBar.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonListScreen.dart';
 import 'package:provider/provider.dart';
@@ -28,83 +30,155 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    double fontsize = size.width > size.height ? size.height : size.width;
     final appStore = Provider.of<AppStore>(context);
     initLists(appStore);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pokedex"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                      labelText: 'Pesquisar pelo nome',
-                      labelStyle: TextStyle(color: Colors.blueAccent),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              width: 2,
-                              color: Color.fromARGB(73, 68, 137, 255))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 2, color: Colors.blueAccent)),
-                      suffixIcon: InkWell(
-                          child: Icon(Icons.search),
-                          onTap: () async {
-                            await pokemonSearch(context, appStore);
-                          })),
-                ),
-                const SizedBox(height: 15),
-                const Text('OU\nSelecione as preferências abaixo',
-                    textAlign: TextAlign.center, textScaleFactor: 1.3),
-                const SizedBox(height: 15),
-                const Text('Geração'),
-                const SizedBox(height: 5),
-                ToggleButtonsSearch(
-                    list: generationPart1, size: maxSizeWidthToggle),
-                ToggleButtonsSearch(
-                    list: generationPart2, size: maxSizeWidthToggle),
-                const SizedBox(height: 15),
-                const Text('Tipo'),
-                const SizedBox(height: 5),
-                ToggleButtonsSearch(list: typesPart1, size: maxSizeWidthToggle),
-                ToggleButtonsSearch(list: typesPart2, size: maxSizeWidthToggle),
-                ToggleButtonsSearch(list: typesPart3, size: maxSizeWidthToggle),
-                ToggleButtonsSearch(list: typesPart4, size: maxSizeWidthToggle),
-                ToggleButtonsSearch(list: typesPart5, size: maxSizeWidthToggle),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(15),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(size.height * 0.11),
+            child: const MyAppBar(title: 'Pokedex', arrowBack: false)),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: size.width * 0.9,
+                  ),
+                  child: Column(children: [
+                    Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: TextFormField(
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: fontsize * 0.04),
+                          controller: controller,
+                          decoration: InputDecoration(
+                              labelText: 'Pesquisar pelo nome',
+                              labelStyle: TextStyle(
+                                  color: Color.fromARGB(255, 158, 158, 158)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
+                              suffixIcon: InkWell(
+                                  child: Icon(
+                                    size: fontsize * 0.07,
+                                    Icons.search,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  onTap: () async {
+                                    await pokemonSearch(context, appStore);
+                                  })),
+                        ),
+                      ),
                     ),
-                    onPressed: () async {
-                      List<bool> selecteds =
-                          appStore.returnToggleButtonsSelecteds();
-                      (selecteds[0] == false || selecteds[1] == false)
-                          ? showSnackBarMessage(
-                              'Selecione alguma preferência para pesquisar')
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PokemonListScreen()),
-                            );
-                    },
-                    child: const Text(
-                      'Pesquisar',
-                      textScaleFactor: 1.2,
-                    )),
-              ],
-            ),
+                    const SizedBox(height: 5),
+                    Text('Ou selecione as preferências abaixo',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontsize * 0.04
+                        ),
+                    ),
+                    LetterPokemon(
+                      text: 'Geração',
+                      size: 0.7,
+                    ),
+                    Card(
+                      elevation: 5,
+                      child: Column(children: [
+                        ToggleButtonsSearch(
+                            list: generationPart1,
+                            size: maxSizeWidthToggle,
+                            select: 'generation',
+                            fontsize: fontsize),
+                        ToggleButtonsSearch(
+                            list: generationPart2,
+                            size: maxSizeWidthToggle,
+                            select: 'generation',
+                            fontsize: fontsize),
+                      ]),
+                    ),
+                    LetterPokemon(
+                      text: 'Tipo',
+                      size: 0.7,
+                    ),
+                    Card(
+                        elevation: 5,
+                        child: Column(
+                          children: [
+                            ToggleButtonsSearch(
+                                list: typesPart1,
+                                size: maxSizeWidthToggle,
+                                select: 'type',
+                                fontsize: fontsize),
+                            ToggleButtonsSearch(
+                                list: typesPart2,
+                                size: maxSizeWidthToggle,
+                                select: 'type',
+                                fontsize: fontsize),
+                            ToggleButtonsSearch(
+                                list: typesPart3,
+                                size: maxSizeWidthToggle,
+                                select: 'type',
+                                fontsize: fontsize),
+                            ToggleButtonsSearch(
+                                list: typesPart4,
+                                size: maxSizeWidthToggle,
+                                select: 'type',
+                                fontsize: fontsize),
+                            ToggleButtonsSearch(
+                                list: typesPart5,
+                                size: maxSizeWidthToggle,
+                                select: 'type',
+                                fontsize: fontsize),
+                          ],
+                        )),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.all(15),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.tertiary,
+                            elevation: 4),
+                        onPressed: () async {
+                          List<bool> selecteds =
+                              appStore.returnToggleButtonsSelecteds();
+                          (selecteds[0] == false || selecteds[1] == false)
+                              ? showSnackBarMessage(
+                                  'Selecione alguma preferência para pesquisar')
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PokemonListScreen()),
+                                );
+                        },
+                        child: Text(
+                          'Pesquisar',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: fontsize * 0.035
+                          ),
+                        )),
+                  ]),
+                )),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   pokemonSearch(context, appStore) async {
@@ -117,8 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    PokemonListScreen(namePokemon: word)));
+                builder: (context) => PokemonListScreen(namePokemon: word)));
       }
     }
     controller.text = '';

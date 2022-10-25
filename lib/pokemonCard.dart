@@ -37,12 +37,16 @@ class PokemonCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: size.width * 0.04
+                    fontSize: size.width * 0.05,
+                    color: Colors.black
                   ),
                 ),
                 Text(
                   '${pokemon!.types}',
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black
+                  ),
                 )
               ],
             ),

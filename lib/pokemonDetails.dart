@@ -1,12 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:pokedex/animationPokebola.dart';
 import 'package:pokedex/customFutureBuilder.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonStats.dart';
 import 'package:pokedex/pokemonList.dart';
 import 'package:pokedex/service/api.dart';
-
 import 'mobx/appStore.dart';
+import 'myAppBar.dart';
+import 'statusBarAnimation.dart';
 
 class PokemonDetails extends StatefulWidget {
   final PokemonStats? pokemon;
@@ -48,44 +50,50 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Detalhes do Pokémon'),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(size.height * 0.11),
+            child: MyAppBar(title: 'Detalhes do Pokémon', fontsize: 0.66)),
+        body: Stack(
+          children: [
+            Container(
               color: widget.pokemon!.color,
-              child: Column(
-                children: [
-                  SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: ToggleButtons(
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int buttonIndex = 0;
-                              buttonIndex < isSelected.length;
-                              buttonIndex++) {
-                            if (buttonIndex == index) {
-                              isSelected[buttonIndex] = true;
-                            } else {
-                              isSelected[buttonIndex] = false;
+              height: size.height * 0.89,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ToggleButtons(
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int buttonIndex = 0;
+                                buttonIndex < isSelected.length;
+                                buttonIndex++) {
+                              if (buttonIndex == index) {
+                                isSelected[buttonIndex] = true;
+                              } else {
+                                isSelected[buttonIndex] = false;
+                              }
                             }
-                          }
-                        });
-                      },
-                      children: options,
-                      isSelected: isSelected,
-                      borderRadius: BorderRadius.circular(10),
-                      selectedColor: Colors.black,
-                      fillColor: Colors.white,
-                      color: Colors.black,
+                          });
+                        },
+                        children: options,
+                        isSelected: isSelected,
+                        borderRadius: BorderRadius.circular(10),
+                        selectedColor: Colors.black,
+                        fillColor: Colors.white,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  isSelected[0] == true
-                      ? showAtributes(size)
-                      : SingleChildScrollView(child: showContent())
-                ],
-              )),
+                    isSelected[0] == true
+                        ? showAtributes(size)
+                        : SingleChildScrollView(child: showContent())
+                  ],
+                ),
+              ),
+            ),
+          ],
         ));
   }
 
@@ -130,7 +138,10 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                               'Imagem não localizada',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             )),
                           )),
                 Padding(
@@ -142,22 +153,30 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                         children: [
                           Container(
                             padding: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '${widget.pokemon!.name.toUpperCase()}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: size.width * 0.035),
+                            child: Stack(
+                              children: [
+                                Text(
+                                  '${widget.pokemon!.name.toUpperCase()}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.width * 0.035,
+                                      color: Colors.black),
+                                ),
+                              ],
                             ),
                           ),
                           Text(
                             'Tipo',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.width * 0.035),
+                                fontSize: size.width * 0.035,
+                                color: Colors.black),
                           ),
                           Text(
                             '${widget.pokemon!.types}',
-                            style: TextStyle(fontSize: size.width * 0.035),
+                            style: TextStyle(
+                                fontSize: size.width * 0.035,
+                                color: Colors.black),
                           )
                         ],
                       ),
@@ -168,12 +187,15 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                             'Habilidades',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.width * 0.035),
+                                fontSize: size.width * 0.035,
+                                color: Colors.black),
                           ),
                           Text(
                             '${widget.pokemon!.abilities}',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: size.width * 0.035),
+                            style: TextStyle(
+                                fontSize: size.width * 0.035,
+                                color: Colors.black),
                           )
                         ],
                       ),
@@ -244,10 +266,31 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     return CustomFutureBuilder<List<Pokemon>>(
       future: getEvolutionsOrVarieties(search),
       onComplete: (context, data) {
-        return Container(
-          color: data[0].color,
-          child: PokemonList(pokemonList: data)
-        );
+        var size = MediaQuery.of(context).size;
+        return data[0].name == '' ? Container(
+          color: Color.fromARGB(62, 0, 0, 0),
+          height: size.height * 0.89,
+          width: size.width,
+          child: Center(
+            child: Container(
+              width: size.width * 0.7,
+              child: Text(
+                'Não há pokémons a serem exibidos',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                ),
+              ),
+            ),
+          ),
+        ) : 
+          Container(
+            color: Color.fromARGB(62, 0, 0, 0),
+            height: size.height * 0.89,
+            child: SingleChildScrollView(
+              child: PokemonList(pokemonList: data),
+            ));
       },
       onEmpty: ((context) {
         print('empty');
@@ -255,13 +298,14 @@ class _PokemonDetailsState extends State<PokemonDetails> {
       }),
       onLoading: ((context) {
         print('loading');
-        return Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: Text('Carregando...')),
-            ],
-          ),
+        var size = MediaQuery.of(context).size;
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: size.height * 0.2),
+            AnimationPokebola(
+                legend: 'Carregando...', color: widget.pokemon!.color),
+          ],
         );
       }),
       onError: ((context, error) {
@@ -279,19 +323,27 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     species = species[species.length - 2];
     species = await api().myRequest('pokemon-species/$species');
     if (search == 'evolutions') {
-      content = species['evolution_chain']['url'];
-      content = content.split('/');
-      content = content[content.length - 2];
-      content = await api().myRequest('evolution-chain/${content}');
-      content = content['chain'];
-      content = extracEvolutionsFromPokemon(content);
-      var listEvolutions = await AppStore().mapNameforPokemon(content);
-      content = listEvolutions;
+      if (species['evolution_chain'] == null) {
+        content = [Pokemon()];
+      } else {
+        content = species['evolution_chain']['url'];
+        content = content.split('/');
+        content = content[content.length - 2];
+        content = await api().myRequest('evolution-chain/${content}');
+        content = content['chain'];
+        content = extracEvolutionsFromPokemon(content);
+        var listEvolutions = await AppStore().mapNameforPokemon(content);
+        content = listEvolutions;
+      }
     } else {
+      if (species['varieties'] == null) {
+        content = [Pokemon()];
+      } else {
         content = species['varieties'];
         var listPokemons = extractNamesFromPokemons(content);
         listPokemons = await AppStore().mapNameforPokemon(listPokemons);
         content = listPokemons;
+      }
     }
 
     return content;
@@ -322,75 +374,5 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     }
 
     return temp;
-  }
-}
-
-class StatusBar extends StatelessWidget {
-  final String? title;
-  final color;
-  final int? value;
-  final size;
-  const StatusBar({super.key, this.title, this.color, this.value, this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                title!,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: size.height * 0.021),
-              ),
-            )),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 20,
-                  width: size.width * 0.7,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                Container(
-                  height: 20,
-                  width: size.width * 0.7,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(115, 0, 0, 0),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                Container(
-                  height: 20,
-                  width: size.width * 0.7 * value! / 200,
-                  decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          style: BorderStyle.solid,
-                          width: 1,
-                          color: Color.fromARGB(78, 0, 0, 0))),
-                ),
-              ],
-            ),
-            Container(
-                padding: EdgeInsets.only(left: 10),
-                child: Text(
-                  '${value!}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ))
-          ],
-        ),
-        SizedBox(height: 5)
-      ],
-    );
   }
 }

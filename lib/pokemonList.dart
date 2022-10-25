@@ -17,9 +17,7 @@ class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(62, 0, 0, 0),
       child: Column(children: [
-        SizedBox(height: 4),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
