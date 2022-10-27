@@ -21,86 +21,98 @@ class PokemonDetails extends StatefulWidget {
 class _PokemonDetailsState extends State<PokemonDetails> {
   List<bool> isSelected = [true, false, false];
 
-  List<Widget> options = [
-    Container(
-      padding: EdgeInsets.all(10),
-      child: Text('ATRIBUTOS',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          )),
-    ),
-    Container(
-      padding: EdgeInsets.all(10),
-      child: Text('EVOLUÇÕES',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          )),
-    ),
-    Container(
-      padding: EdgeInsets.all(10),
-      child: Text('VARIANTES',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          )),
-    )
-  ];
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    double fontsize = size.width > size.height * 0.8 ? size.height : size.width;
+
+    List<Widget> options = [
+    Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Text('ATRIBUTOS',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: fontsize * 0.03
+        )),
+      ),
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Text('EVOLUÇÕES',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: fontsize * 0.03
+            )),
+      ),
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Text('VARIANTES',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: fontsize * 0.03
+            )),
+      )
+    ];
 
     return Scaffold(
+        backgroundColor: widget.pokemon!.color,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(size.height * 0.11),
-            child: MyAppBar(title: 'Detalhes do Pokémon', fontsize: 0.66)),
-        body: Stack(
-          children: [
-            Container(
-              color: widget.pokemon!.color,
-              height: size.height * 0.89,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: ToggleButtons(
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int buttonIndex = 0;
-                                buttonIndex < isSelected.length;
-                                buttonIndex++) {
-                              if (buttonIndex == index) {
-                                isSelected[buttonIndex] = true;
-                              } else {
-                                isSelected[buttonIndex] = false;
+            child: MyAppBar(title: 'Detalhes do Pokémon')),
+        body: Center(
+          child: Stack(
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: 500
+                ),
+                height: size.height * 0.89,
+                width: size.width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 5),
+                      Container(
+                        height: fontsize * 0.12,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: ToggleButtons(
+                          onPressed: (int index) {
+                            setState(() {
+                              for (int buttonIndex = 0;
+                                  buttonIndex < isSelected.length;
+                                  buttonIndex++) {
+                                if (buttonIndex == index) {
+                                  isSelected[buttonIndex] = true;
+                                } else {
+                                  isSelected[buttonIndex] = false;
+                                }
                               }
-                            }
-                          });
-                        },
-                        children: options,
-                        isSelected: isSelected,
-                        borderRadius: BorderRadius.circular(10),
-                        selectedColor: Colors.black,
-                        fillColor: Colors.white,
-                        color: Colors.black,
+                            });
+                          },
+                          children: options,
+                          isSelected: isSelected,
+                          borderRadius: BorderRadius.circular(10),
+                          selectedColor: Colors.black,
+                          fillColor: Colors.white,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    isSelected[0] == true
-                        ? showAtributes(size)
-                        : SingleChildScrollView(child: showContent())
-                  ],
+                      isSelected[0] == true
+                          ? showAtributes(size, fontsize)
+                          : SingleChildScrollView(child: showContent())
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 
-  showAtributes(size) {
-    return Column(children: [
+  showAtributes(size, fontsize) {
+    return Column(
+      children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
         child: Card(
           elevation: 5,
           child: Padding(
@@ -109,8 +121,12 @@ class _PokemonDetailsState extends State<PokemonDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                    width: size.width * 0.4,
-                    height: size.width * 0.4,
+                  constraints: BoxConstraints(
+                    maxWidth: 200,
+                    maxHeight: 200
+                  ),
+                    width: size.width * 0.33,
+                    height: size.width * 0.33,
                     decoration: BoxDecoration(
                         color: widget.pokemon!.color,
                         borderRadius: BorderRadius.circular(15),
@@ -135,13 +151,13 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                         : Center(
                             child: Container(
                                 child: Text(
-                              'Imagem não localizada',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
+                                'Imagem não localizada',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: fontsize * 0.04,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary),
                             )),
                           )),
                 Padding(
@@ -159,7 +175,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                                   '${widget.pokemon!.name.toUpperCase()}',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: size.width * 0.035,
+                                      fontSize: fontsize * 0.03,
                                       color: Colors.black),
                                 ),
                               ],
@@ -169,13 +185,13 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                             'Tipo',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.width * 0.035,
+                                fontSize: fontsize * 0.03,
                                 color: Colors.black),
                           ),
                           Text(
                             '${widget.pokemon!.types}',
                             style: TextStyle(
-                                fontSize: size.width * 0.035,
+                                fontSize: fontsize * 0.03,
                                 color: Colors.black),
                           )
                         ],
@@ -187,14 +203,14 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                             'Habilidades',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: size.width * 0.035,
+                                fontSize: fontsize * 0.03,
                                 color: Colors.black),
                           ),
                           Text(
                             '${widget.pokemon!.abilities}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: size.width * 0.035,
+                                fontSize: fontsize * 0.03,
                                 color: Colors.black),
                           )
                         ],
@@ -202,19 +218,17 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                     ],
                   ),
                 ),
-                SizedBox(width: 10),
               ],
             ),
           ),
         ),
       ),
       Container(
-        margin: EdgeInsets.only(bottom: 14),
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
         child: Card(
           elevation: 5,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
             child: Column(
               children: [
                 StatusBar(
@@ -267,30 +281,28 @@ class _PokemonDetailsState extends State<PokemonDetails> {
       future: getEvolutionsOrVarieties(search),
       onComplete: (context, data) {
         var size = MediaQuery.of(context).size;
-        return data[0].name == '' ? Container(
-          color: Color.fromARGB(62, 0, 0, 0),
-          height: size.height * 0.89,
-          width: size.width,
-          child: Center(
-            child: Container(
-              width: size.width * 0.7,
-              child: Text(
-                'Não há pokémons a serem exibidos',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
+        return data[0].name == ''
+            ? Container(
+                color: Color.fromARGB(62, 0, 0, 0),
+                height: size.height * 0.89,
+                width: size.width,
+                child: Center(
+                  child: Container(
+                    width: size.width * 0.7,
+                    child: Text(
+                      'Não há pokémons a serem exibidos',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ) : 
-          Container(
-            color: Color.fromARGB(62, 0, 0, 0),
-            height: size.height * 0.89,
-            child: SingleChildScrollView(
-              child: PokemonList(pokemonList: data),
-            ));
+              )
+            : Container(
+                color: Color.fromARGB(62, 0, 0, 0),
+                child: SingleChildScrollView(
+                  child: PokemonList(pokemonList: data),
+                ));
       },
       onEmpty: ((context) {
         print('empty');

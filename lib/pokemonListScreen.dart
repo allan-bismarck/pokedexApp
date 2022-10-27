@@ -34,7 +34,7 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(size.height * 0.11),
-            child: MyAppBar(title: 'Lista de Pokémons', fontsize: 0.7),
+            child: MyAppBar(title: 'Lista de Pokémons'),
           ),
           body: Stack(
             children: [
@@ -46,8 +46,7 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                 height: size.height * 0.89,
                 color: Color.fromARGB(62, 0, 0, 0),
                 child: SingleChildScrollView(
-                  child: Container(
-                    child: PokemonList(pokemonList: data)),
+                  child: PokemonList(pokemonList: data),
                 ),
               ),
             ],

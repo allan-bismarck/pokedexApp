@@ -9,6 +9,7 @@ class StatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double fontsize = size.width > size.height ? size.height : size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,9 +20,9 @@ class StatusBar extends StatelessWidget {
               child: Text(
                 title!,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: size.height * 0.021,
-                    color: Colors.black
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: fontsize * 0.035,
+                    color: Colors.black),
               ),
             )),
         Row(
@@ -30,7 +31,10 @@ class StatusBar extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  height: 20,
+                  constraints: BoxConstraints(
+                    maxWidth: 350
+                  ),
+                  height: size.height * 0.03,
                   width: size.width * 0.7,
                   decoration: BoxDecoration(
                     color: color,
@@ -38,7 +42,10 @@ class StatusBar extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 20,
+                  constraints: BoxConstraints(
+                    maxWidth: 350
+                  ),
+                  height: size.height * 0.03,
                   width: size.width * 0.7,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(115, 0, 0, 0),
@@ -47,16 +54,19 @@ class StatusBar extends StatelessWidget {
                 ),
                 StatusBarAnimation(
                   widget: Container(
-                        height: 20,
-                        width: size.width * 0.7 * value! / 200,
-                        decoration: BoxDecoration(
-                            color: color,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                                style: BorderStyle.solid,
-                                width: 1,
-                                color: Color.fromARGB(78, 0, 0, 0))),
-                      ),
+                    constraints: BoxConstraints(
+                      maxWidth: size.width * 0.7
+                    ),
+                    height: size.height * 0.03,
+                    width: value! / 0.7,
+                    decoration: BoxDecoration(
+                        color: color,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            style: BorderStyle.solid,
+                            width: 1,
+                            color: Color.fromARGB(78, 0, 0, 0))),
+                  ),
                 ),
               ],
             ),
@@ -64,7 +74,10 @@ class StatusBar extends StatelessWidget {
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
                   '${value!}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontsize * 0.03,
+                      color: Colors.black),
                 ))
           ],
         ),
@@ -103,10 +116,9 @@ class _StatusBarAnimationState extends State<StatusBarAnimation>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-      sizeFactor: _animation,
-      axis: Axis.horizontal,
-      axisAlignment: -1,
-      child: widget.widget
-    );
+        sizeFactor: _animation,
+        axis: Axis.horizontal,
+        axisAlignment: -1,
+        child: widget.widget);
   }
 }

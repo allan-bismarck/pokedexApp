@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/letterPokemon.dart';
 
 class AnimationPokebola extends StatefulWidget {
   final String legend;
@@ -28,9 +29,12 @@ class _AnimationPokebolaState extends State<AnimationPokebola>
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Center(
       child: Container(
-        color: widget.color == null ? Theme.of(context).colorScheme.background : widget.color,
+        color: widget.color == null
+            ? Theme.of(context).colorScheme.background
+            : widget.color,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -38,8 +42,8 @@ class _AnimationPokebolaState extends State<AnimationPokebola>
               turns: _animation,
               child: Center(
                 child: Container(
-                  width: 140,
-                  height: 140,
+                  width: size.width * 0.3,
+                  height: size.height * 0.2,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     shape: BoxShape.circle,
@@ -48,16 +52,11 @@ class _AnimationPokebolaState extends State<AnimationPokebola>
                 ),
               ),
             ),
-            Stack(
-              children: [
-                Text(widget.legend,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline4),
-                Text(widget.legend,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline3),
-              ],
-            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: LetterPokemon(text: widget.legend, size: size.width > size.height ? size.height * 0.003 : size.width * 0.003),
+            )
           ],
         ),
       ),

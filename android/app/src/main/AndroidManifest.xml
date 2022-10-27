@@ -2,7 +2,7 @@
     package="com.example.pokedex">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="pokedex"
+        android:label="Super Pokédex"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

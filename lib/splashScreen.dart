@@ -12,26 +12,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 10), (){
+    Timer(Duration(seconds: 8), () {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                MyHomePage()),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
       );
-});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: Center(
-        child: AnimationPokebola(legend: 'Inicializando Pokedex'),
+      body: AnimationPokebola(
+        legend: 'Inicializando Pokédex',
       ),
     );
   }

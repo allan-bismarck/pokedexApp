@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/splashScreen.dart';
 import 'package:provider/provider.dart';
-import 'homePage.dart';
+import 'package:flutter/services.dart';
 import 'mobx/appStore.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -27,23 +29,6 @@ class MyApp extends StatelessWidget {
             secondary: Color.fromARGB(255, 4, 119, 191),
             tertiary: Color.fromARGB(255, 242, 183, 5),
             background: Color.fromARGB(255, 4, 196, 217),
-          ),
-          textTheme: TextTheme(
-            headline3: TextStyle(
-              color: Color.fromARGB(255, 242, 183, 5),
-              fontSize: 25,
-              letterSpacing: 5,
-              fontFamily: 'Pokemon-Solid',
-            ),
-            headline4: TextStyle(
-              fontFamily: 'Pokemon-Solid',
-              fontSize: 25,
-              letterSpacing: 5,
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 8
-                ..color = Color.fromARGB(255, 3, 101, 161),
-            ),
           ),
         ),
         home: const SplashScreen(),

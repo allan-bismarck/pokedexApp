@@ -3,53 +3,16 @@ import 'package:pokedex/letterPokemon.dart';
 
 class MyAppBar extends StatelessWidget {
   final String title;
-  final double? fontsize;
-  final bool? arrowBack;
-  const MyAppBar(
-      {super.key, required this.title, this.fontsize, this.arrowBack});
+  const MyAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    double fontsize = size.width > size.height ? size.height : size.width;
     return AppBar(
+        toolbarHeight: size.height * 0.13,
+        centerTitle: true,
         automaticallyImplyLeading: false,
-        title: arrowBack == null ? Stack(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 30),
-                InkWell(
-                  onTap: Navigator.of(context).pop,
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-              ],
-            ),
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  LetterPokemon(
-                    text: title,
-                    size: fontsize,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ) : Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 10),
-                  LetterPokemon(
-                    text: title,
-                    size: fontsize,
-                  ),
-                ],
-              ),
-            )
-          );
+        title: LetterPokemon(text: title, size: fontsize * 0.002));
   }
 }

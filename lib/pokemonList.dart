@@ -16,34 +16,40 @@ class _PokemonListState extends State<PokemonList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.pokemonList == null
-              ? 1
-              : widget.pokemonList!.length,
-          itemBuilder: (context, index) {
-            return widget.pokemonList == null
-              ? Text('Nenhum item a ser exibido')
-              : InkWell(
-                  onTap: () async {
-                    var pokemon = PokemonStats();
-                    pokemon = await pokemon.getPokemon(
-                        widget.pokemonList![index].name);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              PokemonDetails(pokemon: pokemon)),
-                    );
-                  },
-                  child:
-                      PokemonCard(pokemon: widget.pokemonList![index]));
-          },
-        )
-      ]),
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: 500,
+        ),
+        child: Column(
+          children: [
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.pokemonList == null
+                ? 1
+                : widget.pokemonList!.length,
+            itemBuilder: (context, index) {
+              return widget.pokemonList == null
+                ? Text('Nenhum item a ser exibido')
+                : InkWell(
+                    onTap: () async {
+                      var pokemon = PokemonStats();
+                      pokemon = await pokemon.getPokemon(
+                          widget.pokemonList![index].name);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PokemonDetails(pokemon: pokemon)),
+                      );
+                    },
+                    child:
+                        PokemonCard(pokemon: widget.pokemonList![index]));
+            },
+          )
+        ]),
+      ),
     );
   }
 }
