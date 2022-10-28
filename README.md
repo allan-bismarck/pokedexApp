@@ -1,4 +1,4 @@
-#Super Pokédex
+# Super Pokédex
 
 ### It is an application designed to display information about pokémons, it has options for searching by name and also selecting preferences such as pokémon generation and type.
 
@@ -10,4 +10,4 @@
 #### Download Application: [Super Pokédex](./super-pokedex.apk)
 
 #### Application screens:
-<img height="480" width="220" src="screenshots/carregamento inicial.png" target="_blank"> <img height="480" width="220" src="screenshots/tela inicial.png" target="_blank"> <img height="480" width="220" src="screenshots/pesquisa pelo nome.png" target="_blank"> <img height="480" width="220" src="screenshots/listando busca pelo nome.png" target="_blank"> <img height="480" width="220" src="screenshots/pesquisa pelas preferencias.png" target="_blank"> <img height="480" width="220" src="screenshots/carregamento de busca.png" target="_blank"> <img height="480" width="220" src="screenshots/listando busca pelas preferencias.png" target="_blank"> <img height="480" width="220" src="screenshots/detalhes do pokemon.png" target="_blank"> <img height="480" width="220" src="screenshots/evolucoes do pokemon.png" target="_blank"> <img height="480" width="220" src="screenshots/variantes do pokemon.png" target="_blank">
+<img height="480" width="270" src="screenshots/carregamento inicial.png" target="_blank"> <img height="480" width="270" src="screenshots/tela inicial.png" target="_blank"> <img height="480" width="270" src="screenshots/pesquisa pelo nome.png" target="_blank"> <img height="480" width="270" src="screenshots/listando busca pelo nome.png" target="_blank"> <img height="480" width="270" src="screenshots/pesquisa pelas preferencias.png" target="_blank"> <img height="480" width="270" src="screenshots/carregamento de busca.png" target="_blank"> <img height="480" width="220" src="/screenshots/listando busca pelas preferencias.png" target="_blank"> <img height="480" width="270" src="screenshots/detalhes do pokemon.png" target="_blank"> <img height="480" width="270" src="screenshots/evolucoes do pokemon.png" target="_blank"> <img height="480" width="270" src="screenshots/variantes do pokemon.png" target="_blank">
