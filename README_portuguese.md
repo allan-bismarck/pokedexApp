@@ -1,4 +1,6 @@
-#Super Pokédex
+<a href="README.md" target="_blank">Read this page in english</a>
+
+# Super Pokédex
 
 ### É um aplicativo desenvolvido para exibir informações sobre os pokémons, possui as opções de busca pelo nome e também selecionando as preferências como geração do pokémon e o tipo.
 
