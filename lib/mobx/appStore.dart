@@ -109,7 +109,6 @@ class AppStore {
 
     for (int x = 0; x < generation.length; x++) {
       if (selectedGeneration.value[x] == true) {
-        print(generation[x]);
         isSelectedGeneration = true;
         break;
       }
@@ -117,7 +116,6 @@ class AppStore {
 
     for (int x = 0; x < type.length; x++) {
       if (selectedType.value[x] == true) {
-        print(type[x]);
         isSelectedType = true;
         break;
       }

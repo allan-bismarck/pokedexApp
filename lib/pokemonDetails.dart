@@ -305,11 +305,9 @@ class _PokemonDetailsState extends State<PokemonDetails> {
                 ));
       },
       onEmpty: ((context) {
-        print('empty');
         return Center(child: Text('Não há Pokémons a ser exibidos'));
       }),
       onLoading: ((context) {
-        print('loading');
         var size = MediaQuery.of(context).size;
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -321,7 +319,6 @@ class _PokemonDetailsState extends State<PokemonDetails> {
         );
       }),
       onError: ((context, error) {
-        print('error');
         return Center(child: Text(error.toString()));
       }),
     );

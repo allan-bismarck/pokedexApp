@@ -53,17 +53,14 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
           ));
       },
       onEmpty: ((context) {
-        print('empty');
         return Center(child: Text('Não há Pokémons a ser exibidos'));
       }),
       onLoading: ((context) {
-        print('loading');
         return Scaffold(
           body: AnimationPokebola(legend: 'Carregando...'),
         );
       }),
       onError: ((context, error) {
-        print('error');
         return Center(child: Text(error.toString()));
       }),
     );

@@ -1,16 +1,13 @@
-# pokedex
+#Super Pokédex
 
-A new Flutter project.
+### It is an application designed to display information about pokémons, it has options for searching by name and also selecting preferences such as pokémon generation and type.
 
-## Getting Started
+### The app consumes the PokéAPI API.
 
-This project is a starting point for a Flutter application.
+#### Technologies used:
+<a target="_blank"><img height="40" width="120" src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" target="_blank"></a> <a target="_blank"><img height="40" width="150" src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" target="_blank"></a>
 
-A few resources to get you started if this is your first Flutter project:
+#### Download Application: [Super Pokédex](./super-pokedex.apk)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Application screens:
+<img height="480" width="220" src="screenshots/carregamento inicial.png" target="_blank"> <img height="480" width="220" src="screenshots/tela inicial.png" target="_blank"> <img height="480" width="220" src="screenshots/pesquisa pelo nome.png" target="_blank"> <img height="480" width="220" src="screenshots/listando busca pelo nome.png" target="_blank"> <img height="480" width="220" src="screenshots/pesquisa pelas preferencias.png" target="_blank"> <img height="480" width="220" src="screenshots/carregamento de busca.png" target="_blank"> <img height="480" width="220" src="screenshots/listando busca pelas preferencias.png" target="_blank"> <img height="480" width="220" src="screenshots/detalhes do pokemon.png" target="_blank"> <img height="480" width="220" src="screenshots/evolucoes do pokemon.png" target="_blank"> <img height="480" width="220" src="screenshots/variantes do pokemon.png" target="_blank">
