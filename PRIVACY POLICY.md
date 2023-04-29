@@ -4,14 +4,13 @@ Privacy Policy
 Para idioma em português, role a página.
 
 ### Introduction  
-Our privacy policy will help you understand what information we collect at *[Autonomo/Super Pokédex]*, how *[Autonomo/Super Pokédex]* uses it, and what choices you have.
-*[Autonomo/Super Pokédex]* built the *[Super Pokédex]* app as a free app. This SERVICE is provided by *[Autonomo/Super Pokédex]* at no cost and is intended for use as is.
+Our privacy policy will help you understand what information we collect at *[Allan Bismarck/Super Pokédex]*, how *[Allan Bismarck/Super Pokédex]* uses it, and what choices you have.
+*[Allan Bismarck/Super Pokédex]* built the *[Super Pokédex]* app as a free app. This SERVICE is provided by *[Allan Bismarck/Super Pokédex]* at no cost and is intended for use as is.
 If you choose to use our Service, then you agree to the collection and use of information in  relation with this policy. The Personal Information that we collect are used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.  
 The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible in our website, unless otherwise  defined in this Privacy Policy.
 
 ### Information Collection and Use  
-For a better experience while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to users name, email address, gender, location, pictures. The information that we request will be retained by us and used as described in this privacy policy.  
-The app does use third party services that may collect information used to identify you. 
+Our app does not collect any user information.
 
 ### Cookies  
 Cookies are files with small amount of data that is commonly used an anonymous unique identifier. These are sent to your browser from the website that you visit and are stored on your devices’s internal memory.  
@@ -37,7 +36,7 @@ We want to inform users of this Service that these third parties have access to 
 We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over  the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.  
 
 ### Children’s Privacy  
-This Services do not address anyone under the age of 13. We do not knowingly collect personal identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you  are  a  parent  or  guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.  
+This Services do not address anyone under the age of 18. We do not knowingly collect personal identifiable information from children under 18. In the case we discover that a child under 18 has provided us with personal information, we immediately delete this from our servers. If you  are  a  parent  or  guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.  
 
 ### Changes to This Privacy Policy  
 We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately, after they are posted on this page. 
@@ -52,12 +51,11 @@ Política de Privacidade
 ----------------
 
 ### Introdução  
-Nossa política de privacidade ajudará você a entender quais informações coletamos na [Autonomo/Super Pokédex], como a [Autonomo/Super Pokédex] as usa e quais escolhas você tem. [Autonomo/Super Pokédex] criou o aplicativo [Super Pokédex] como um aplicativo gratuito. Este SERVIÇO é fornecido pela [Autonomo/Super Pokédex] sem nenhum custo e deve ser usado como está. Se você optar por usar nosso Serviço, concorda com a coleta e o uso de informações relacionadas a esta política. As informações pessoais que coletamos são usadas para fornecer e melhorar o serviço. Não usaremos ou compartilharemos suas informações com ninguém, exceto conforme descrito nesta Política de Privacidade.
+Nossa política de privacidade ajudará você a entender quais informações coletamos na [Allan Bismarck/Super Pokédex], como a [Allan Bismarck/Super Pokédex] as usa e quais escolhas você tem. [Allan Bismarck/Super Pokédex] criou o aplicativo [Super Pokédex] como um aplicativo gratuito. Este SERVIÇO é fornecido pela [Allan Bismarck/Super Pokédex] sem nenhum custo e deve ser usado como está. Se você optar por usar nosso Serviço, concorda com a coleta e o uso de informações relacionadas a esta política. As informações pessoais que coletamos são usadas para fornecer e melhorar o serviço. Não usaremos ou compartilharemos suas informações com ninguém, exceto conforme descrito nesta Política de Privacidade.
 Os termos usados nesta Política de Privacidade têm os mesmos significados que em nossos Termos e Condições, que podem ser acessados em nosso site, a menos que definido de outra forma nesta Política de Privacidade.
 
 ### Coleta e uso de informações 
-Para uma melhor experiência ao usar nosso Serviço, podemos exigir que você nos forneça certas informações de identificação pessoal, incluindo, entre outras, nome do usuário, endereço de e-mail, sexo, localização e fotos. As informações que solicitamos serão retidas por nós e usadas conforme descrito nesta política de privacidade.
-O aplicativo usa serviços de terceiros que podem coletar informações usadas para identificá-lo.
+Nosso aplicativo não coleta nenhuma informação do usuário.
 
 ### Cookies  
 Cookies são arquivos com pequena quantidade de dados que são comumente usados como um identificador único anônimo. Estes são enviados para o seu navegador a partir do site que você visita e são armazenados na memória interna dos seus dispositivos.  
