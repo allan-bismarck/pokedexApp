@@ -44,6 +44,7 @@ class _AnimationPokebolaState extends State<AnimationPokebola>
                 child: Container(
                   width: size.width * 0.3,
                   height: size.height * 0.2,
+                  padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     shape: BoxShape.circle,

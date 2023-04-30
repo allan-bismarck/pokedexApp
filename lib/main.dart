@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       create: (_) => AppStore(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Pokedex',
+        title: 'Cod4Dex',
         theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(
             primary: Color.fromARGB(255, 242, 5, 48),

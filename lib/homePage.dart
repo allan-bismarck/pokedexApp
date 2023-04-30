@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(size.height * 0.13),
-            child: const MyAppBar(title: 'Super Pokédex')),
+            child: const MyAppBar(title: 'Cod4Dex')),
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -155,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  width: size.width * 0.3,
+                  width: size.width * 0.4,
+                  height: size.width * 0.08,
                   alignment: Alignment.center,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -176,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         const PokemonListScreen()),
                               );
                       },
-                      child: LetterPokemon(text: 'Pesquisar', size: fontsize * 0.0012)),
+                      child: LetterPokemon(text: 'Pesquisar', size: fontsize * 0.0015)),
                 ),
                   const SizedBox(height: 15),
               ]),

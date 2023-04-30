@@ -16,7 +16,7 @@ class _PokemonEvolutionsState extends State<PokemonEvolutions> {
   @override
   Widget build(BuildContext context) {
     final appStore = Provider.of<AppStore>(context);
-    var content = appStore.getContent();
+    var content = appStore.content;
 
     return SingleChildScrollView(
       child: Column(

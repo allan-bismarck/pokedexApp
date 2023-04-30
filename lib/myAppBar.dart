@@ -13,6 +13,6 @@ class MyAppBar extends StatelessWidget {
         toolbarHeight: size.height * 0.13,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: LetterPokemon(text: title, size: fontsize * 0.002));
+        title: LetterPokemon(text: title, size: fontsize * 0.0021));
   }
 }

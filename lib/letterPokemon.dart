@@ -14,8 +14,8 @@ class LetterPokemon extends StatelessWidget {
             text,
             textAlign: TextAlign.center, 
             style: TextStyle(
-              fontFamily: 'Pokemon-Solid',
-              fontSize: 25,
+              fontFamily: 'Lockergnome',
+              fontSize: 23,
               letterSpacing: size == null ? 8.0 : size! * 5,
               foreground: Paint()
                 ..style = PaintingStyle.stroke
@@ -29,9 +29,9 @@ class LetterPokemon extends StatelessWidget {
             textAlign: TextAlign.center, 
             style: TextStyle(
               color: Color.fromARGB(255, 242, 183, 5),
-              fontSize: 25,
+              fontSize: 23,
               letterSpacing: size == null ? 8.0 : size! * 5,
-              fontFamily: 'Pokemon-Solid',
+              fontFamily: 'Lockergnome',
             ),
             textScaleFactor: size == null? 1 : size,
           )

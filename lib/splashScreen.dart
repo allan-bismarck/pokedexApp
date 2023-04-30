@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimationPokebola(
-        legend: 'Inicializando Pokédex',
+        legend: 'Inicializando Cod4Dex',
       ),
     );
   }
