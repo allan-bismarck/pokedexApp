@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/letterPokemon.dart';
-import 'package:pokedex/myAppBar.dart';
-import 'package:pokedex/pokemon.dart';
-import 'package:pokedex/pokemonListScreen.dart';
-import 'package:pokedex/strings.dart';
+import 'package:pokedex/components/letterPokemon.dart';
+import 'package:pokedex/components/myAppBar.dart';
+import 'package:pokedex/functions/pokemon.dart';
+import 'package:pokedex/screens/pokemonListScreen.dart';
+import 'package:pokedex/functions/strings.dart';
 import 'package:provider/provider.dart';
-import 'mobx/appStore.dart';
-import 'toggleButtons.dart';
+import '../mobx/appStore.dart';
+import '../components/toggleButtons.dart';
 
 TextEditingController controller = TextEditingController();
 

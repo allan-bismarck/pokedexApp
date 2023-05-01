@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pokemon.dart';
-import 'package:pokedex/pokemonCard.dart';
-import 'package:pokedex/pokemonDetails.dart';
-import 'package:pokedex/pokemonStats.dart';
+import 'package:pokedex/functions/pokemon.dart';
+import 'package:pokedex/components/pokemonCard.dart';
+import 'package:pokedex/screens/pokemonDetails.dart';
+import 'package:pokedex/components/pokemonStats.dart';
 
 class PokemonList extends StatefulWidget {
   final List<Pokemon>? pokemonList;

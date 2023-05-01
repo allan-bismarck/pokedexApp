@@ -1,8 +1,8 @@
 import 'dart:ui';
-import 'package:pokedex/extractor.dart';
 import 'package:pokedex/service/service.dart';
 
-import 'colors.dart';
+import '../functions/colors.dart';
+import '../functions/extractor.dart';
 
 class PokemonStats {
   String abilities = '';

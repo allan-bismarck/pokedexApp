@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/myTheme.dart';
-import 'package:pokedex/splashScreen.dart';
+import 'package:pokedex/components/myTheme.dart';
+import 'package:pokedex/screens/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'mobx/appStore.dart';

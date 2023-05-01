@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-
-import '../Strings.dart';
+import '../functions/strings.dart';
 import 'api.dart';
 
 class ApiDio implements Api{

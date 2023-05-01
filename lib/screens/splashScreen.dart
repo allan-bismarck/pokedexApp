@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/animationPokebola.dart';
+import 'package:pokedex/components/animationPokebola.dart';
 import 'dart:async';
 
-import 'package:pokedex/homePage.dart';
+import 'package:pokedex/screens/homePage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

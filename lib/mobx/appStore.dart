@@ -1,14 +1,10 @@
-import 'dart:ui';
-
 import 'package:mobx/mobx.dart';
-import 'package:pokedex/colors.dart';
-import 'package:pokedex/extractor.dart';
-import 'package:pokedex/mapper.dart';
-import 'package:pokedex/pokemon.dart';
+import 'package:pokedex/functions/mapper.dart';
+import 'package:pokedex/functions/pokemon.dart';
 import 'package:pokedex/service/service.dart';
-import 'package:pokedex/strings.dart';
+import 'package:pokedex/functions/strings.dart';
 
-import '../filter.dart';
+import '../functions/filter.dart';
 
 class AppStore {
   List<Pokemon> content = [];

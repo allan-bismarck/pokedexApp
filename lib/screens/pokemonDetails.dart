@@ -1,16 +1,15 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:pokedex/animationPokebola.dart';
-import 'package:pokedex/customFutureBuilder.dart';
-import 'package:pokedex/extractor.dart';
-import 'package:pokedex/pokemon.dart';
-import 'package:pokedex/pokemonStats.dart';
-import 'package:pokedex/pokemonList.dart';
+import 'package:pokedex/components/animationPokebola.dart';
+import 'package:pokedex/components/customFutureBuilder.dart';
+import 'package:pokedex/functions/pokemon.dart';
+import 'package:pokedex/components/pokemonStats.dart';
+import 'package:pokedex/components/pokemonList.dart';
 import 'package:pokedex/service/service.dart';
-import 'mapper.dart';
-import 'mobx/appStore.dart';
-import 'myAppBar.dart';
-import 'statusBarAnimation.dart';
+import '../functions/extractor.dart';
+import '../functions/mapper.dart';
+import '../components/myAppBar.dart';
+import '../components/statusBarAnimation.dart';
 
 class PokemonDetails extends StatefulWidget {
   final PokemonStats? pokemon;

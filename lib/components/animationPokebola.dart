@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/letterPokemon.dart';
+import 'package:pokedex/components/letterPokemon.dart';
 
-import 'Strings.dart';
+import '../functions/strings.dart';
 
 class AnimationPokebola extends StatefulWidget {
   final String legend;

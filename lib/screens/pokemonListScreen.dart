@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/animationPokebola.dart';
-import 'package:pokedex/customFutureBuilder.dart';
-import 'package:pokedex/pokemon.dart';
-import 'package:pokedex/pokemonList.dart';
+import 'package:pokedex/components/animationPokebola.dart';
+import 'package:pokedex/components/customFutureBuilder.dart';
+import 'package:pokedex/functions/pokemon.dart';
+import 'package:pokedex/components/pokemonList.dart';
 import 'package:provider/provider.dart';
-import 'mobx/appStore.dart';
-import 'myAppBar.dart';
+import '../mobx/appStore.dart';
+import '../components/myAppBar.dart';
 
 class PokemonListScreen extends StatefulWidget {
   final String? namePokemon;

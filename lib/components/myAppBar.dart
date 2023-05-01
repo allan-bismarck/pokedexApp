@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/letterPokemon.dart';
+import 'package:pokedex/components/letterPokemon.dart';
 
 class MyAppBar extends StatelessWidget {
   final String title;

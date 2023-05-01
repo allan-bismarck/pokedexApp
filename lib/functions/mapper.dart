@@ -1,4 +1,4 @@
-import 'package:pokedex/pokemon.dart';
+import 'package:pokedex/functions/pokemon.dart';
 import 'package:pokedex/service/service.dart';
 
 import 'colors.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pokemonCard.dart';
-import 'package:pokedex/pokemonDetails.dart';
-import 'package:pokedex/pokemonStats.dart';
+import 'package:pokedex/components/pokemonCard.dart';
+import 'package:pokedex/screens/pokemonDetails.dart';
+import 'package:pokedex/components/pokemonStats.dart';
 import 'package:provider/provider.dart';
-import 'mobx/appStore.dart';
+import '../mobx/appStore.dart';
 
 class PokemonEvolutions extends StatefulWidget {
   const PokemonEvolutions({super.key});

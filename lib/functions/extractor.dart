@@ -1,5 +1,5 @@
 import 'package:pokedex/service/service.dart';
-import 'package:pokedex/translator.dart';
+import 'package:pokedex/functions/translator.dart';
 
 class Extractor {
 
