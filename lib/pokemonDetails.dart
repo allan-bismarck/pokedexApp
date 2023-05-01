@@ -7,6 +7,7 @@ import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonStats.dart';
 import 'package:pokedex/pokemonList.dart';
 import 'package:pokedex/service/service.dart';
+import 'mapper.dart';
 import 'mobx/appStore.dart';
 import 'myAppBar.dart';
 import 'statusBarAnimation.dart';
@@ -326,6 +327,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Future<List<Pokemon>> getEvolutionsOrVarieties(search) async {
+    var mapper = Mapper();
     var apiService = ApiService();
     var extractor = Extractor();
     var content = await apiService.myRequest('pokemon/${widget.pokemon!.name}');
@@ -344,7 +346,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
         content = await apiService.myRequest('evolution-chain/$content');
         content = content['chain'];
         content = extractor.extractEvolutionsFromPokemon(content);
-        var listEvolutions = await AppStore().mapNameforPokemon(content);
+        var listEvolutions = await mapper.mapNameforPokemon(content);
         content = listEvolutions;
       }
     } else {
@@ -353,7 +355,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
       } else {
         content = species['varieties'];
         var listPokemons = extractor.extractNamesFromPokemons(content, 'pokemonDetails');
-        listPokemons = await AppStore().mapNameforPokemon(listPokemons);
+        listPokemons = await mapper.mapNameforPokemon(listPokemons);
         content = listPokemons;
       }
     }

@@ -3,9 +3,12 @@ import 'dart:ui';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/colors.dart';
 import 'package:pokedex/extractor.dart';
+import 'package:pokedex/mapper.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/service/service.dart';
 import 'package:pokedex/strings.dart';
+
+import '../filter.dart';
 
 class AppStore {
   List<Pokemon> content = [];
@@ -98,10 +101,12 @@ class AppStore {
     var contentGeneration = [], contentType = [], contentTemp;
     content = [];
     var strings = GlobalStrings();
+    var apiService = ApiService();
+    var mapper = Mapper();
 
     for (int x = 0; x < strings.generation.length; x++) {
       if (selectedGeneration.value[x] == true) {
-        contentTemp = await ApiService().myRequest('generation/${x + 1}/');
+        contentTemp = await apiService.myRequest('generation/${x + 1}/');
         contentTemp = contentTemp['pokemon_species'];
         contentGeneration += contentTemp;
       }
@@ -110,12 +115,12 @@ class AppStore {
     for (int x = 0; x < strings.type.length; x++) {
       if (selectedType.value[x] == true) {
         if (x == 18) {
-          contentTemp = await ApiService().myRequest('type/10001/');
+          contentTemp = await apiService.myRequest('type/10001/');
         } else {
           if (x == 19) {
-            contentTemp = await ApiService().myRequest('type/10002/');
+            contentTemp = await apiService.myRequest('type/10002/');
           } else {
-            contentTemp = await ApiService().myRequest('type/${x + 1}/');
+            contentTemp = await apiService.myRequest('type/${x + 1}/');
           }
         }
         contentTemp = contentTemp['pokemon'];
@@ -132,13 +137,14 @@ class AppStore {
         }
       }
     }
-    contentTemp = removeRepetiblePokemonList(contentTemp);
+    contentTemp = PokemonFilter().removeRepetiblePokemonList(contentTemp);
     contentTemp.sort();
-    content = await mapNameforPokemon(contentTemp);
+    content = await mapper.mapNameforPokemon(contentTemp);
     return content;
   }
 
   Future<List<Pokemon>> pokemonSearchByWord(word) async {
+    var mapper = Mapper();
     var temp;
     temp = await ApiService().myRequest('pokemon/$word');
     if (temp == null) {
@@ -146,7 +152,7 @@ class AppStore {
     } else {
       temp = temp['forms'];
       temp = [temp[0]['name']];
-      content = await mapNameforPokemon(temp);
+      content = await mapper.mapNameforPokemon(temp);
       return content;
     }
   }
@@ -157,28 +163,6 @@ class AppStore {
       temp.add(content[index]['pokemon']);
     }
     return temp;
-  }
-
-  mapNameforPokemon(listPokemon) async {
-    List<Pokemon> pokemons = [];
-    for (int index = 0; index < listPokemon.length; index++) {
-      var temp = await getPokemonDetails(listPokemon[index]);
-      if (temp != null) {
-        pokemons.add(temp);
-      }
-    }
-    return pokemons;
-  }
-
-  removeRepetiblePokemonList(list) {
-    for (int x = 0; x < list.length; x++) {
-      for (int y = 0; y < list.length; y++) {
-        if (x != y && list[x] == list[y]) {
-          list.remove(list[y]);
-        }
-      }
-    }
-    return list;
   }
 
   selectedItens(itemSelected) {
@@ -198,21 +182,6 @@ class AppStore {
         }
       }
     }
-  }
-
-  getPokemonDetails(item) async {
-    var pokemon = Pokemon();
-    var extractor = Extractor();
-    var geralPokemon = await ApiService().myRequest('pokemon-form/$item');
-    if (geralPokemon != null) {
-      pokemon.name = geralPokemon['name'];
-      pokemon.types = extractor.extractTypesFromPokemonAppStore(geralPokemon['types']);
-      pokemon.sprites = geralPokemon['sprites']['front_default'];
-      pokemon.color = ColorsBackground().getColor(pokemon.types, ' | ');
-      return pokemon;
-    }
-
-    return null;
   }
 
   _setToggle() {
