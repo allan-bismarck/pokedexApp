@@ -2,10 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pokedex/animationPokebola.dart';
 import 'package:pokedex/customFutureBuilder.dart';
+import 'package:pokedex/extractor.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonStats.dart';
 import 'package:pokedex/pokemonList.dart';
-import 'package:pokedex/service/api.dart';
+import 'package:pokedex/service/service.dart';
 import 'mobx/appStore.dart';
 import 'myAppBar.dart';
 import 'statusBarAnimation.dart';
@@ -325,12 +326,14 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Future<List<Pokemon>> getEvolutionsOrVarieties(search) async {
-    var content = await api().myRequest('pokemon/${widget.pokemon!.name}');
+    var apiService = ApiService();
+    var extractor = Extractor();
+    var content = await apiService.myRequest('pokemon/${widget.pokemon!.name}');
     var species;
     species = content['species']['url'];
     species = species.split('/');
     species = species[species.length - 2];
-    species = await api().myRequest('pokemon-species/$species');
+    species = await apiService.myRequest('pokemon-species/$species');
     if (search == 'evolutions') {
       if (species['evolution_chain'] == null) {
         content = [Pokemon()];
@@ -338,9 +341,9 @@ class _PokemonDetailsState extends State<PokemonDetails> {
         content = species['evolution_chain']['url'];
         content = content.split('/');
         content = content[content.length - 2];
-        content = await api().myRequest('evolution-chain/${content}');
+        content = await apiService.myRequest('evolution-chain/$content');
         content = content['chain'];
-        content = extracEvolutionsFromPokemon(content);
+        content = extractor.extractEvolutionsFromPokemon(content);
         var listEvolutions = await AppStore().mapNameforPokemon(content);
         content = listEvolutions;
       }
@@ -349,7 +352,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
         content = [Pokemon()];
       } else {
         content = species['varieties'];
-        var listPokemons = extractNamesFromPokemons(content);
+        var listPokemons = extractor.extractNamesFromPokemons(content, 'pokemonDetails');
         listPokemons = await AppStore().mapNameforPokemon(listPokemons);
         content = listPokemons;
       }
@@ -358,30 +361,4 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     return content;
   }
 
-  extracEvolutionsFromPokemon(list) {
-    var temp = list;
-    var temp2 = [];
-    temp2.add(temp['species']['name']);
-    temp = temp['evolves_to'];
-    for (int index = 0; index < temp.length; index++) {
-      temp2.add(temp[index]['species']['name']);
-      if (temp[index]['evolves_to'] != []) {
-        var temp3 = temp;
-        temp3 = temp[index]['evolves_to'];
-        for (int x = 0; x < temp3.length; x++) {
-          temp2.add(temp3[x]['species']['name']);
-        }
-      }
-    }
-    return temp2;
-  }
-
-  extractNamesFromPokemons(listPokemons) {
-    var temp = [];
-    for (int index = 0; index < listPokemons.length; index++) {
-      temp.add(listPokemons[index]['pokemon']['name']);
-    }
-
-    return temp;
-  }
 }

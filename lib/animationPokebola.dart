@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/letterPokemon.dart';
 
+import 'Strings.dart';
+
 class AnimationPokebola extends StatefulWidget {
   final String legend;
   final Color? color;
@@ -48,11 +50,11 @@ class _AnimationPokebolaState extends State<AnimationPokebola>
                     color: Theme.of(context).colorScheme.secondary,
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset('lib/assets/images/pokebola.png'),
+                  child: Image.asset(GlobalStrings().pathImageSplashScreen),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: LetterPokemon(text: widget.legend, size: size.width > size.height ? size.height * 0.003 : size.width * 0.003),

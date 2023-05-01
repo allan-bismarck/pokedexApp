@@ -3,6 +3,7 @@ import 'package:pokedex/letterPokemon.dart';
 import 'package:pokedex/myAppBar.dart';
 import 'package:pokedex/pokemon.dart';
 import 'package:pokedex/pokemonListScreen.dart';
+import 'package:pokedex/strings.dart';
 import 'package:provider/provider.dart';
 import 'mobx/appStore.dart';
 import 'toggleButtons.dart';
@@ -32,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var size = MediaQuery.of(context).size;
     double fontsize = size.width > size.height ? size.height : size.width;
     final appStore = Provider.of<AppStore>(context);
-    initLists(appStore);
+    initLists();
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         controller: controller,
                         decoration: InputDecoration(
                             labelText: 'Pesquisar pelo nome',
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                                 color: Color.fromARGB(255, 158, 158, 158)),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -178,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       child: LetterPokemon(text: 'Pesquisar', size: fontsize * 0.0012)),
                 ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
               ]),
             ),
           ),
@@ -227,18 +228,19 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  initLists(appStore) {
+  initLists() {
+    var strings = GlobalStrings();
     for (int x = 0; x < maxSizeWidthToggle; x++) {
-      typesPart1.add(appStore.type[x]);
-      typesPart2.add(appStore.type[x + 4]);
-      typesPart3.add(appStore.type[x + 8]);
-      typesPart4.add(appStore.type[x + 12]);
-      typesPart5.add(appStore.type[x + 16]);
+      typesPart1.add(strings.type[x]);
+      typesPart2.add(strings.type[x + 4]);
+      typesPart3.add(strings.type[x + 8]);
+      typesPart4.add(strings.type[x + 12]);
+      typesPart5.add(strings.type[x + 16]);
     }
 
     for (int x = 0; x < maxSizeWidthToggle; x++) {
-      generationPart1.add(appStore.generation[x]);
-      generationPart2.add(appStore.generation[x + 4]);
+      generationPart1.add(strings.generation[x]);
+      generationPart2.add(strings.generation[x + 4]);
     }
   }
 }
